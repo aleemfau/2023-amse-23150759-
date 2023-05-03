@@ -47,3 +47,17 @@ This dataset provides all available data consolidated starting from the first mo
 
 
 [i2]:https://github.com/aleemfau/2023-amse-23150759-/issues/2
+
+3. Time Series Analysis [#3][i3]Issue
+
+[i3]:https://github.com/aleemfau/2023-amse-23150759-/issues/3
+
+4. Predictive Modeling [#4][i4]Issue
+
+[i4]:https://github.com/aleemfau/2023-amse-23150759-/issues/4
+
+5. Final Report and Code [#5][i5]Issue
+
+[i5]:https://github.com/aleemfau/2023-amse-23150759-/issues/5
+
+
