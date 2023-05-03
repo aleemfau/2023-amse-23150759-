@@ -41,4 +41,4 @@ This dataset provides all available data consolidated starting from the first mo
 1. Data Collection and Preprocessing [#1][i1]Issue: Extracting and cleaning the bike-share data from Nextbike, vehicle registration data from the City of Munich Open Data Portal, and population data from the same source.
 3. ...
 
-[i1]: https://github.com/jvalue/2023-amse-template/issues/1
+[i1]: https://github.com/aleemfau/2023-amse-23150759-/issues/1
