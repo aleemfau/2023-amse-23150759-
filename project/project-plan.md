@@ -3,7 +3,8 @@
 ## Summary
 
 <!-- Describe your data science project in max. 5 sentences. -->
-This projects analyzes XY.
+This project is to analyze the data obtained regarding road accidents happened in Schleswig-Holstein and Hamburg in the month of January. The aim of the project is to identify the 
+
 
 ## Rationale
 
@@ -15,8 +16,8 @@ The analysis helps XY to do YZ.
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
 ### Datasource1: ExampleSource
-* Metadata URL: https://mobilithek.info/offers/-6901989592576801458
-* Data URL: https://raw.githubusercontent.com/od-ms/radverkehr-zaehlstellen/main/100035541/2019-01.csv
+* Metadata URL:https://mobilithek.info/offers/-4504231851497920696
+* Data URL: https://suche.transparenz.hamburg.de/localresources/StaNord_CMS/StaNord_CMS64778/H_I_1-m2301_HH.zip
 * Data Type: CSV
 
 Short description.
