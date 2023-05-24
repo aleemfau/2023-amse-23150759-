@@ -1,53 +1,57 @@
+pipeline airportDataPipeline{
+    //getting file from url
+    block airportDataExtractor oftype HttpExtractor{	
+        	url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv";
+    }	
+    //converting file to textfile
+    block airportDataTextFileInterpreter oftype TextFileInterpreter{
 
-//
-pipeline AirportsPipeline {
-
-    // Extractor Block: To model the data source
-    block AirportsExtractor oftype HttpExtractor {
-        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv";
     }
-
-    // Transformer Block: To model Transformation 
-    block AirportsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "utf-8";
-    }
-
-    // Transformer Block 2 
-    block AirportsCSVInterpreter oftype CSVInterpreter {
+    //covnerting textfile to csv
+    block airportDataCSVFileInterpreter oftype CSVInterpreter{
         delimiter: ";";
     }
-
-    // Transformer Block 3 : CSV to Table & Assigning Built in Value Types
-    block AirportsTableInterpreter oftype TableInterpreter {
-        header: true;
+    //converting csv to table
+    block airportDataTableInterpreter oftype TableInterpreter{
+        header:false;
         columns: [
             "column_1" oftype integer,
-            "column_2" oftype text,
-            "column_3" oftype text,
-            "column_4" oftype text,
-            "column_5" oftype text,
-            "column_6" oftype text,
-            "column_7" oftype decimal,
-            "column_8" oftype decimal,
-            "column_9" oftype integer,
-            "column_10" oftype decimal,
-            "column_11" oftype text,
-            "column_12" oftype text,
-            "geo_punkt" oftype integer
-        ];
+			"column_2" oftype text,
+			"column_3" oftype text,
+			"column_4" oftype text,
+			"column_5" oftype text,
+			"column_6" oftype text,
+			"column_7" oftype decimal,
+			"column_8" oftype decimal,
+			"column_9" oftype integer,
+			"column_10" oftype decimal,
+			"column_11" oftype text,
+			"column_12" oftype text,
+			"geo_punkt" oftype text
+		];
     }
+    //generating sqlite file from table, enter table and filename while running the script using runtime parameters (AIRPORT_DATA_TABLE_FILENAME , AIRPORT_DATA_SQLITE_FILENAME)
 
-    // Loader Block: To model Data Sink
-    block AirportsLoader oftype SQLiteLoader {
-        table: "airports";
-        file: "./airports.sqlite";
+    block airportDataSQLiteInterpreter oftype SQLiteLoader {
+		 table: "airports";
+         file: "airports.sqlite";
+	}
+    
+    //pipes
+    pipe {
+        from: airportDataExtractor;
+        to: airportDataTextFileInterpreter;
     }
-
-    // Pipe: Build a chain of all the AirportsPipeline's blocks
-    AirportsExtractor
-        -> AirportsTextFileInterpreter
-        -> AirportsCSVInterpreter
-        -> AirportsTableInterpreter
-        -> AirportsLoader;
-
+    pipe {
+        from: airportDataTextFileInterpreter;
+        to: airportDataCSVFileInterpreter;
+    }
+    pipe {
+        from: airportDataCSVFileInterpreter;
+        to: airportDataTableInterpreter;
+    }
+     pipe {
+        from: airportDataTableInterpreter;
+        to: airportDataSQLiteInterpreter;
+    }
 }
