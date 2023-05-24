@@ -93,6 +93,3 @@ new_mvr_df.to_sql("MVR_DATA", createDb, if_exists="replace")
 #Creating SQL database for Munich Bike Sharing Data 
 
 new_bs_df.to_sql("BS_DATA", createDb, if_exists="replace")
-
-
-
