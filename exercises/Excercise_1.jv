@@ -40,7 +40,7 @@ pipeline AirportsPipeline {
     // Loader Block: To model Data Sink
     block AirportsLoader oftype SQLiteLoader {
         table: "airports";
-        file: "./airports.db";
+        file: "./airports.sqlite";
     }
 
     // Pipe: Build a chain of all the AirportsPipeline's blocks
