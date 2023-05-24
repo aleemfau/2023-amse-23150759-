@@ -1,53 +1,57 @@
-
-//
 pipeline AirportsPipeline {
 
-    // Extractor Block: To model the data source
-    block AirportsExtractor oftype HttpExtractor {
-        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv";
+	block AirportsExtractor oftype HttpExtractor { url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv"; }
+
+	pipe {
+		from: AirportsExtractor;
+		to: AirportsTextFileInterpreter;
+	}
+
+	block AirportsTextFileInterpreter oftype TextFileInterpreter {
+
+	}
+
+	pipe {
+		from: AirportsTextFileInterpreter;
+		to: AirportsCSVInterpreter;
+	}
+
+	block AirportsCSVInterpreter oftype CSVInterpreter {
+		delimiter: ";";
+		
+	}
+
+	pipe {
+	   	from: AirportsCSVInterpreter;
+	   	to: AirportsTableInterpreter;
+	}
+
+	block AirportsTableInterpreter oftype TableInterpreter {
+    	header:true;
+    	columns: [
+			"column_1" oftype integer,
+			"column_2" oftype text,
+			"column_3" oftype text,
+			"column_4" oftype text,
+			"column_5" oftype text,
+			"column_6" oftype text,
+			"column_7" oftype decimal,
+			"column_8" oftype decimal,
+			"column_9" oftype integer,
+			"column_10" oftype decimal,
+			"column_11" oftype text,
+			"column_12" oftype text,
+			"geo_punkt" oftype text
+    	];
     }
 
-    // Transformer Block: To model Transformation 
-    block AirportsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "utf-8";
-    }
+	pipe {
+		from: AirportsTableInterpreter;
+		to: AirportsLoader;
+	}
 
-    // Transformer Block 2 
-    block AirportsCSVInterpreter oftype CSVInterpreter {
-        delimiter: ";";
-    }
-
-    // Transformer Block 3 : CSV to Table & Assigning Built in Value Types
-    block AirportsTableInterpreter oftype TableInterpreter {
-        header: true;
-        columns: [
-            "column_1" oftype integer,
-            "column_2" oftype text,
-            "column_3" oftype text,
-            "column_4" oftype text,
-            "column_5" oftype text,
-            "column_6" oftype text,
-            "column_7" oftype decimal,
-            "column_8" oftype decimal,
-            "column_9" oftype integer,
-            "column_10" oftype decimal,
-            "column_11" oftype text,
-            "column_12" oftype text,
-            "geo_punkt" oftype decimal
-        ];
-    }
-
-    // Loader Block: To model Data Sink
-    block AirportsLoader oftype SQLiteLoader {
-        table: "airports";
-        file: "./airports.sqlite";
-    }
-
-    // Pipe: Build a chain of all the AirportsPipeline's blocks
-    AirportsExtractor
-        -> AirportsTextFileInterpreter
-        -> AirportsCSVInterpreter
-        -> AirportsTableInterpreter
-        -> AirportsLoader;
-
+	block AirportsLoader oftype SQLiteLoader {
+		table: "airports";
+		file: "./airports.sqlite";
+	}
 }
