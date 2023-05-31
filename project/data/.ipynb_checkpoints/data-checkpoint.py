@@ -1,8 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine
 import openpyxl
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 #**************Importing Munich Vehicle Registration Data**************
 #MVR = Munich Vehicle Registration Data
@@ -95,85 +93,3 @@ new_mvr_df.to_sql("MVR_DATA", createDb, if_exists="replace")
 #Creating SQL database for Munich Bike Sharing Data 
 
 new_bs_df.to_sql("BS_DATA", createDb, if_exists="replace")
-
-
-# Data Summary
-print("Munich Vehicle Registration Data Summary:")
-print(new_mvr_df.shape)  # Shape of the data frame
-print(new_mvr_df.describe())  # Summary statistics
-print(new_mvr_df.dtypes)  # Data types of columns
-
-print("Munich Bike Sharing Data Summary:")
-print(new_bs_df.shape)  # Shape of the data frame
-print(new_bs_df.describe())  # Summary statistics
-print(new_bs_df.dtypes)  # Data types of columns
-
-# Data Visualization
-plt.figure(figsize=(10, 6))
-sns.countplot(x='Year', data=new_mvr_df)
-plt.title('Vehicle Registrations by Year')
-plt.xlabel('Year')
-plt.ylabel('Count')
-plt.show()
-
-plt.figure(figsize=(10, 6))
-sns.lineplot(x='Date', y='In_total', data=new_bs_df)
-plt.title('Bike Rentals over Time')
-plt.xlabel('Date')
-plt.ylabel('Count')
-plt.xticks(rotation=45)
-plt.show()
-
-# Data Manipulation
-
-# Group the data in new_mvr_df by year and calculate the sum of "altogether" for each year
-total_registrations_by_year = new_mvr_df.groupby('Year')['altogether'].sum()
-
-#Average rented bikes per day
-avg_bikes_rented_day = new_bs_df.groupby('Date')['In_total'].mean()
-
-
-# Data Aggregation and Analysis
-registrations_by_district = new_mvr_df.groupby('Administrative district')['altogether'].sum()
-rentals_by_station = new_bs_df.groupby('Counting_Station')['In_total'].sum()
-
-# ***** Rented bikes per year ******
-
-# Convert the "Date" column in new_bs_df to datetime 
-new_bs_df['Date'] = pd.to_datetime(new_bs_df['Date'])
-# Extract the year from the "Date" column
-new_bs_df['Year'] = new_bs_df['Date'].dt.year
-# Group the data by year and calculate the average of "In_total" for each year
-average_bikes_rented_by_year = new_bs_df.groupby('Year')['In_total'].mean()
-
-# *****Calculate the correlation*****
-# Drop the additional column from the new_bs_df DataFrame
-new_bs_df = new_bs_df[new_bs_df['Year'] != 2017]
-
-# Calculate the correlation between the average number of bikes rented and the total number of registrations
-correlation = average_bikes_rented_by_year.corr(total_registrations_by_year)
-
-# Plot the correlation graph
-plt.scatter(average_bikes_rented_by_year, total_registrations_by_year)
-plt.xlabel('Average Bikes Rented per Year')
-plt.ylabel('Total Registrations per Year')
-plt.title('Correlation between Average Bikes Rented and Total Registrations')
-plt.grid(True)
-plt.show()
-
-
-# Print the results
-print("Total Registrations per Year:")
-print(total_registrations_year)
-
-print("Average Bikes Rented per Day:")
-print(avg_bikes_rented_day)
-
-# Print the average number of bikes rented per year for all the years
-print(average_bikes_rented)
-
-print("Registrations by Administrative District:")
-print(registrations_by_district)
-
-print("Rentals by Counting Station:")
-print(rentals_by_station)

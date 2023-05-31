@@ -9,7 +9,6 @@ pipeline AirportsPipeline {
 
     // Transformer Block: To model Transformation 
     block AirportsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "utf-8";
     }
 
     // Transformer Block 2 
@@ -33,7 +32,7 @@ pipeline AirportsPipeline {
             "column_10" oftype decimal,
             "column_11" oftype text,
             "column_12" oftype text,
-            "geo_punkt" oftype integer
+            "geo_punkt" oftype text
         ];
     }
 
