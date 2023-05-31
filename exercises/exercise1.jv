@@ -18,7 +18,7 @@ pipeline AirportsPipeline {
 
     // Transformer Block 3 : CSV to Table & Assigning Built in Value Types
     block AirportsTableInterpreter oftype TableInterpreter {
-        header: true;
+        header: false;
         columns: [
             "column_1" oftype integer,
             "column_2" oftype text,
@@ -37,7 +37,7 @@ pipeline AirportsPipeline {
     }
 
     // Loader Block: To model Data Sink
-    block AirportsLoader oftype SQLiteLoader {
+    block AirportsDBLoader oftype SQLiteLoader {
         table: "airports";
         file: "./airports.sqlite";
     }
@@ -47,6 +47,6 @@ pipeline AirportsPipeline {
         -> AirportsTextFileInterpreter
         -> AirportsCSVInterpreter
         -> AirportsTableInterpreter
-        -> AirportsLoader;
+        -> AirportsDBLoader;
 
 }
