@@ -49,15 +49,15 @@ table_name = "trainstops"
 column_types = {
     "DS100": VARCHAR(length=255),
     "EVA_NR": VARCHAR(length=255),
-    "Bahnhofsname Lang": VARCHAR(length=255),
-    "Bahnhofsname Kurz": VARCHAR(length=255),
     "Laenge": FLOAT,
     "Breite": FLOAT,
     "Verkehr": VARCHAR(length=255),
-    "Kategorie": VARCHAR(length=255),
-    "Betriebsstellenart": VARCHAR(length=255),
-    "Regionalbereich": VARCHAR(length=255),
     "IFOPT": VARCHAR(length=255)
+    "NAME": VARCHAR(length=255),
+    "Betreiber_Name": VARCHAR(length=255),
+    "Betreiber_Nr": INT
+    
+    
 }
 df = df.astype(column_types)
 # Create table and insert data
