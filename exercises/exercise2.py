@@ -44,7 +44,7 @@ print("Unique IFOPT values after filtering:")
 print(unique_ifopt)
 
 # Step 3: Data Loading
-db_engine = create_engine("sqlite:///trainstops.sqlite")
+#db_engine = create_engine("sqlite:///trainstops.sqlite")
 table_name = "trainstops"
 
 # Define column data types
@@ -63,5 +63,5 @@ column_types = {
 }
 
 # Create table and insert data
-df.to_sql(table_name, db_engine, if_exists="replace", index=False)
+df.to_sql(table_name, 'sqlite:///trainstops.sqlite', if_exists="replace", index=False)
 
