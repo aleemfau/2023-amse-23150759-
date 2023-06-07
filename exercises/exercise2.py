@@ -48,14 +48,14 @@ table_name = "trainstops"
 # Define column data types
 column_types = {
     "DS100": VARCHAR(length=255),
-    "EVA_NR": Integar,
+    "EVA_NR": Integer,
     "Laenge": FLOAT,
     "Breite": FLOAT,
     "Verkehr": VARCHAR(length=255),
     "IFOPT": VARCHAR(length=255),
     "NAME": VARCHAR(length=255),
     "Betreiber_Name": VARCHAR(length=255),
-    "Betreiber_Nr": Integar
+    "Betreiber_Nr": Integer
     
     
 }
