@@ -1,7 +1,7 @@
 import pandas as pd
 import io
 import re
-from sqlalchemy import create_engine, VARCHAR, FLOAT, TEXT, Integer 
+from sqlalchemy import create_engine, VARCHAR, FLOAT, TEXT
 
 # Step 1: Train stops data Extraction from provided CSV File
 csv_url = "https://download-data.deutschebahn.com/static/datasets/haltestellen/D_Bahnhof_2020_alle.CSV"
@@ -48,14 +48,14 @@ table_name = "trainstops"
 # Define column data types
 column_types = {
     "DS100": VARCHAR(length=255),
-    "EVA_NR": Integer,
+    "EVA_NR": int,
     "Laenge": FLOAT,
     "Breite": FLOAT,
     "Verkehr": VARCHAR(length=255),
     "IFOPT": VARCHAR(length=255),
     "NAME": VARCHAR(length=255),
     "Betreiber_Name": VARCHAR(length=255),
-    "Betreiber_Nr": Integer
+    "Betreiber_Nr": int
     
     
 }
