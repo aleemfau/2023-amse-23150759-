@@ -59,7 +59,7 @@ column_types = {
     "Regionalbereich": VARCHAR(length=255),
     "IFOPT": VARCHAR(length=255)
 }
-
+df = df.astype(column_types)
 # Create table and insert data
 df.to_sql(table_name, 'sqlite:///trainstops.sqlite', if_exists="replace", index=False)
 
