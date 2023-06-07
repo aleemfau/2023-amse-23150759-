@@ -52,7 +52,7 @@ column_types = {
     "Laenge": FLOAT,
     "Breite": FLOAT,
     "Verkehr": VARCHAR(length=255),
-    "IFOPT": VARCHAR(length=255)
+    "IFOPT": VARCHAR(length=255),
     "NAME": VARCHAR(length=255),
     "Betreiber_Name": VARCHAR(length=255),
     "Betreiber_Nr": INT
