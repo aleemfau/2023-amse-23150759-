@@ -1,4 +1,3 @@
-import requests
 import pandas as pd
 import io
 import re
@@ -6,11 +5,10 @@ from sqlalchemy import create_engine, VARCHAR, FLOAT, TEXT
 
 # Step 1: Train stops data Extraction from provided CSV File
 csv_url = "https://download-data.deutschebahn.com/static/datasets/haltestellen/D_Bahnhof_2020_alle.CSV"
-response = requests.get(csv_url)
-csv_data = response.text
+
 
 # Step 2: Train stops CSV Data Transformation
-df = pd.read_csv(io.StringIO(csv_data), delimiter=';')
+df = pd.read_csv(csv_url, delimiter=';')
 
 # Requirement 1: Drop the "Status" column
 del df["Status"]
