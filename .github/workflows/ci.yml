@@ -24,7 +24,8 @@ jobs:
       - name: Install libraries
         run: |
           pip install pandas numpy
+      - name: Verify file path
+        run: |
+          ls main/project
       - name: Run shell script
-        run: sh main/project/test.sh   
-
-      
+        run: sh 2023-amse-23150759-\project\test.sh
