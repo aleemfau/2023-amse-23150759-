@@ -26,6 +26,6 @@ jobs:
           pip install pandas numpy
       - name: Verify file path
         run: |
-          ls main/project
+          ls 2023-amse-23150759-/tree/main/project
       - name: Run shell script
         run: sh 2023-amse-23150759-\project\test.sh
