@@ -19,13 +19,14 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v2
         with:
+          path: main
           python-version: 3.11
 
       - name: Install libraries
         run: |
           pip install pandas numpy
-      - name: Verify file path
+      - name: Get Directory
         run: |
-          ls 2023-amse-23150759-/tree/main/project
+          ls 
       - name: Run shell script
-        run: sh 2023-amse-23150759-\project\test.sh
+        run: sh project\test.sh
