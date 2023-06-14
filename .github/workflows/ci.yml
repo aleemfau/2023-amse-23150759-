@@ -19,12 +19,14 @@ jobs:
       - name: Set up Python 3.11
         uses: actions/setup-python@v2
         with:
+          path: main
           python-version: 3.11
 
       - name: Install libraries
         run: |
           pip install pandas numpy
+      - name: Get Directory
+        run: |
+          ls 
       - name: Run shell script
-        run: sh main/project/test.sh  
-
-      
+        run: sh ./project/test.sh
