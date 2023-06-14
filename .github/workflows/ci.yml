@@ -25,6 +25,6 @@ jobs:
         run: |
           pip install pandas numpy
       - name: Run shell script
-        run: sh project/test.sh   
+        run: sh main/project/test.sh   
 
       
