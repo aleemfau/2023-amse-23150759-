@@ -1,28 +1,6 @@
 pipeline CarsPipeline {
 
-    valuetype PositiveNumbers oftype integer {
-        constraints: [
-            OnlyPositiveNumbers,
-        ];
-    }
-
-    valuetype CommunityID oftype text {
-        constraints: [
-            Exactly5Characters,
-        ];
-    }
-
-    constraint OnlyPositiveNumbers oftype RangeConstraint {
-        lowerBound: 0;
-        lowerBoundInclusive: false;
-    }
-
-    constraint Exactly5Characters oftype LengthConstraint {
-        minLength: 5;
-        maxLength: 5;
-    }
-    
-    // Block for extracting data from an HTTP source
+// Block for extracting data from an HTTP source
     block CarDataExtractor oftype HttpExtractor {
         url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46251-0021_00.csv";
     }
@@ -37,14 +15,45 @@ pipeline CarsPipeline {
         delimiter: ";";
     }
 
+    valuetype CommunityID oftype text {
+        constraints: [
+            Exactly5Characters,
+        ];
+    }
+
+    valuetype PositiveNumbers oftype integer {
+        constraints: [
+            OnlyPositiveNumbers,
+        ];
+    }
+
+    constraint OnlyPositiveNumbers oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: false;
+    }
+
+    constraint Exactly5Characters oftype LengthConstraint {
+        minLength: 5;
+        maxLength: 5;
+    }
+    
     // Block for deleting specific rows from the dataset
     block RowDeleter oftype RowDeleter {
-        delete: [1, 2, 3, 4, 5, 6, 484..487];  // Delete rows 1 to 6 and 484 to 487
+        delete: 
+        [row 1, row 2, row 3, row 4, row 5, row 6, row 484, row 485, row 487];  // Delete rows 1 to 6 and 484 to 487
     }
 
     // Block for deleting specific columns from the dataset
     block ColumnDeleter oftype ColumnDeleter {
-         delete: ["D".."H", "J".."L", "N".."R", "T".."X", "Z".."AE", "AG".."AN", "AP".."AT", "AV".."BD", "BF".."BJ", "BL".."BQ", "BS".."BW", "BY".."CC", "CE"];
+         delete: [column D, column E, column F, column G, column H, column I, column J, column K, 
+         column L, column N, column O, column P, column Q, column R, column S, column T, column U, 
+         column V, column X, column Y, column Z, column AA, column AB, column AC, column AD, column AE, 
+         column AF, column AH, column AI, column AJ, column AK, column AL, column AM, column AN, 
+         column AO, column AP, column AR, column AS, column AT, column AU, column AV, column AW, 
+         column AX, column AY, column AZ, column BB, column BC, column BD, column BE, column BF, 
+         column BG, column BH, column BI, column BJ, column BL, column BM, column BN, column BO, 
+         column BP, column BQ, column BR, column BS, column BT, column BV, column BW, column BX, 
+         column BY, column BZ, column CA, column CB, column CC, column CD, column CE];
     }
 
     // Block for interpreting the remaining data as a table
@@ -77,4 +86,5 @@ pipeline CarsPipeline {
         ->ColumnDeleter
         ->TableInterpreter
         ->DataLoader;
+
 }
