@@ -1,0 +1,80 @@
+pipeline CarsPipeline {
+
+    valuetype PositiveNumbers oftype integer {
+        constraints: [
+            OnlyPositiveNumbers,
+        ];
+    }
+
+    valuetype CommunityID oftype text {
+        constraints: [
+            Exactly5Characters,
+        ];
+    }
+
+    constraint OnlyPositiveNumbers oftype RangeConstraint {
+        lowerBound: 0;
+        lowerBoundInclusive: false;
+    }
+
+    constraint Exactly5Characters oftype LengthConstraint {
+        minLength: 5;
+        maxLength: 5;
+    }
+    
+    // Block for extracting data from an HTTP source
+    block CarDataExtractor oftype HttpExtractor {
+        url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46251-0021_00.csv";
+    }
+
+    // Block for interpreting the text file
+    block TextFileInterpreter oftype TextFileInterpreter {
+        encoding: "ASCII";
+    }
+
+    // Block for interpreting the CSV file format
+    block CSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    // Block for deleting specific rows from the dataset
+    block RowDeleter oftype RowDeleter {
+        delete: [1, 2, 3, 4, 5, 6, 484..487];  // Delete rows 1 to 6 and 484 to 487
+    }
+
+    // Block for deleting specific columns from the dataset
+    block ColumnDeleter oftype ColumnDeleter {
+         delete: ["D".."H", "J".."L", "N".."R", "T".."X", "Z".."AE", "AG".."AN", "AP".."AT", "AV".."BD", "BF".."BJ", "BL".."BQ", "BS".."BW", "BY".."CC", "CE"];
+    }
+
+    // Block for interpreting the remaining data as a table
+    block TableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "date" oftype text,
+            "communityID" oftype CommunityID,
+            "name" oftype text,
+            "petrol" oftype PositiveNumbers, 
+            "diesel" oftype PositiveNumbers,
+            "gas" oftype PositiveNumbers,
+            "electro" oftype PositiveNumbers,
+            "hybrid" oftype PositiveNumbers,
+            "plugInHybrid" oftype PositiveNumbers,
+            "others" oftype PositiveNumbers 
+        ];
+    }
+
+    // Block for loading the interpreted data into an SQLite database
+    block DataLoader oftype SQLiteLoader {
+        table: "cars";
+        file: "./cars.sqlite";
+    }
+
+    CarDataExtractor
+        ->TextFileInterpreter
+        ->CSVInterpreter
+        ->RowDeleter
+        ->ColumnDeleter
+        ->TableInterpreter
+        ->DataLoader;
+}
