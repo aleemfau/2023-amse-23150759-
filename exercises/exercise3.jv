@@ -15,7 +15,7 @@ pipeline CarsPipeline {
         delimiter: ";";
     }
 
-    valuetype CommunityID oftype text {
+    valuetype CIN oftype text {
         constraints: [
             Exactly5Characters,
         ];
@@ -61,7 +61,7 @@ pipeline CarsPipeline {
         header: false;
         columns: [
             "date" oftype text,
-            "communityID" oftype CommunityID,
+            "CIN" oftype CIN,
             "name" oftype text,
             "petrol" oftype PositiveNumbers, 
             "diesel" oftype PositiveNumbers,
