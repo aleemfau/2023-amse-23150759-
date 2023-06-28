@@ -3,6 +3,11 @@ from sqlalchemy import create_engine
 import openpyxl
 import matplotlib.pyplot as plt
 import seaborn as sns
+import ssl
+
+# Disable SSL certificate verification
+ssl._create_default_https_context = ssl._create_unverified_context
+
 
 #**************Importing Munich Vehicle Registration Data**************
 #MVR = Munich Vehicle Registration Data
@@ -10,7 +15,7 @@ import seaborn as sns
 
 
 
-MVR_df = pd.read_excel('https://opendata.stadt-muenster.de/sites/default/files/Fahrzeugbestand-Regierungsbezirk-Muenster-2018-2022.xlsx',skiprows=1)
+MVR_df = pd.read_excel('"C:\Users\aleem\Downloads\rad_tage.csv"',skiprows=1)
 print(MVR_df)
 
 #**************Importing Munich Bike Sharing Data**************
@@ -18,7 +23,7 @@ print(MVR_df)
 
 
 
-BS_df = pd.read_csv(r"C:\Users\Alimu\Downloads\rad_tage.csv")
+BS_df = pd.read_csv("file://rad_tage.csv")
 #data can be download from the link ("https://www.kaggle.com/code/docxian/bike-traffic-in-munich")
 print(BS_df.head())
 
