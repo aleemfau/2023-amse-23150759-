@@ -1,7 +1,6 @@
 import pandas as pd
 import zipfile
 import urllib.request
-import numpy as np
 from sqlalchemy import create_engine
 
 #               ***Data Fetching***
