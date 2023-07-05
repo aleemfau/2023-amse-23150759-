@@ -18,18 +18,6 @@ df = pd.read_csv("./exercises/data.csv", delimiter=';', index_col=False, usecols
 
 # Columns Renaming
 df = df.rename(columns={"Temperatur in °C (DWD)": "Temperatur", "Batterietemperatur in °C": "Batterietemperatur"})
-
-# Data Transformation
-df["Temperatur"] = pd.to_numeric(df["Temperatur"], errors='coerce')
-df["Batterietemperatur"] = pd.to_numeric(df["Batterietemperatur"], errors='coerce')
-
-# Ensure no empty values
-df = df.dropna()
-
-# Convert temperatures to Fahrenheit
-df["Temperatur"] = df["Temperatur"] * 9/5 + 32
-df["Batterietemperatur"] = df["Batterietemperatur"] * 9/5 + 32
-
 # Types Validation
 column_types = {
     'Geraet': int,
@@ -41,6 +29,10 @@ column_types = {
     'Geraet aktiv': str
 }
 df = df.astype(column_types)
+
+# Convert temperatures to Fahrenheit
+df["Temperatur"] = df["Temperatur"] * 9/5 + 32
+df["Batterietemperatur"] = df["Batterietemperatur"] * 9/5 + 32
 
 # Write to SQLite database
 df.to_sql("temperatures", 'sqlite:///temperatures.sqlite', if_exists="replace", index=False)
