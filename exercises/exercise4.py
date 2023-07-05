@@ -1,6 +1,7 @@
 import pandas as pd
 import zipfile
 import urllib.request
+from sqlalchemy import create_engine
 
 #               ***Fetching***          
 url = "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip"
@@ -20,6 +21,14 @@ df = pd.read_csv("./exercises/data.csv", delimiter=';', index_col=False, usecols
 df = df.rename(columns={"Temperatur in °C (DWD)": "Temperatur", "Batterietemperatur in °C": "Batterietemperatur"})
 
 #               ***Data Transformation***
+# Data Transformation
+df["Temperatur"] = pd.to_numeric(df["Temperatur"], errors='coerce')
+df["Batterietemperatur"] = pd.to_numeric(df["Batterietemperatur"], errors='coerce')
+
+# Columns Renaming
+df = df.rename(columns={"Temperatur in °C (DWD)": "Temperatur", "Batterietemperatur in °C": "Batterietemperatur"})
+
+# Data Transformation
 df["Temperatur"] = df["Temperatur"] * 9/5 + 32
 df["Batterietemperatur"] = df["Batterietemperatur"] * 9/5 + 32
 
