@@ -1,0 +1,81 @@
+pipeline StopsPipeline {
+    
+    // Block for extracting data from an HTTP source
+    block StopsDataExtractor oftype HttpExtractor {
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip"; // URL from where the data will be retrieved
+    }
+
+    // Block for interpreting archive files (specifically, a ZIP archive in this case)
+    block ArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip"; // Specifies the type of the archive
+    }
+
+    // Block for selecting a specific file within the extracted archive
+    block FilePicker oftype FilePicker {
+        path: "/stops.txt"; // Path to the selected file within the archive
+    }
+
+    // Block for interpreting the selected text file
+    block TextFileInterpreter oftype TextFileInterpreter {
+        encoding: "ASCII"; // Specifies the encoding used for the text file
+    }
+
+    // Block for interpreting the text file as a CSV file
+    block CSVInterpreter oftype CSVInterpreter {
+        delimiter: ","; // Specifies the delimiter used in the CSV file
+        enclosing: '"'; // Specifies the enclosing character used in the CSV file
+    }
+
+    // Block for interpreting the CSV data as a table
+    block TableInterpreter oftype TableInterpreter {
+        header: false; // Indicates whether the CSV file has a header row
+        columns: [
+            "stop_id" oftype integer, // Specifies the column "stop_id" of type integer
+            "stop_name" oftype text, // Specifies the column "stop_name" of type text
+            "stop_lat" oftype Coordinates, // Specifies the column "stop_lat" of type Coordinates
+            "stop_lon" oftype Coordinates, // Specifies the column "stop_lon" of type Coordinates
+            "zone_id" oftype ZoneNumber // Specifies the column "zone_id" of type ZoneNumber
+        ];
+    }
+    
+    // Custom value type for validating ZoneNumber values
+    valuetype ZoneNumberValidator oftype integer {
+        constraints: [
+            Year // Constraint specific to the "Year" constraint
+        ];
+    }
+    
+    // Constraint for defining valid zone_id values
+    constraint Year oftype RangeConstraint {
+        lowerBound: 2001; // Lower bound for zone_id values
+        upperBound: 2001; // Upper bound for zone_id values
+    }
+    
+    // Custom value type for representing latitude and longitude coordinates
+    valuetype Coordinates oftype decimal {
+        constraints: [
+            GeographicConstraints // Constraint specific to geographic coordinates
+        ];
+    }
+
+    // Constraint for defining valid latitude and longitude values
+    constraint GeographicConstraints oftype RangeConstraint {
+        lowerBound: -90; // Lower bound for latitude and longitude values
+        upperBound: 90; // Upper bound for latitude and longitude values
+    }
+
+    // Block for loading the interpreted and validated data into an SQLite database table
+    block DataLoader oftype SQLiteLoader {
+        table: "Stops"; // Name of the SQLite table where the data will be loaded
+        file: "./gtfs.sqlite"; // File path for the SQLite database
+    }
+
+    // Pipeline connections between the blocks
+    StopsExtractor // Starting point of the pipeline
+        -> ArchiveInterpreter
+        -> FilePicker
+        -> TextFileInterpreter
+        -> CSVInterpreter
+        -> TableInterpreter
+        -> DataLoader; // Endpoint of the pipeline
+}
