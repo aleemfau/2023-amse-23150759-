@@ -56,8 +56,13 @@ pipeline StopsPipeline {
     }
 
     block DataLoader oftype SQLiteLoader {
+<<<<<<< HEAD
         table: "stops"; 
         file: "./gtfs.sqlite"; 
+=======
+        table: "stops"; // Name of the SQLite table where the data will be loaded
+        file: "gtfs.sqlite"; // File path for the SQLite database
+>>>>>>> 4080f816a4db14b7f0a89925cac0ffa1ef702dca
     }
 
     StopsExtractor // Starting point of the pipeline
