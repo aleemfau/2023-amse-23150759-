@@ -13,6 +13,7 @@ pipeline StopsPipeline {
     }
 
     block TextFileInterpreter oftype TextFileInterpreter {
+    encoding: "ASCII";
     }
 
     block CSVInterpreter oftype CSVInterpreter {
