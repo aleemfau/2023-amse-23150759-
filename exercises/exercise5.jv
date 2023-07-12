@@ -66,8 +66,8 @@ pipeline StopsPipeline {
 
     // Block for loading the interpreted and validated data into an SQLite database table
     block DataLoader oftype SQLiteLoader {
-        table: "Stops"; // Name of the SQLite table where the data will be loaded
-        file: "./gtfs.sqlite"; // File path for the SQLite database
+        table: "stops"; // Name of the SQLite table where the data will be loaded
+        file: "gtfs.sqlite"; // File path for the SQLite database
     }
 
     // Pipeline connections between the blocks
