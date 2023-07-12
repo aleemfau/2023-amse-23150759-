@@ -16,13 +16,13 @@ pipeline StopsPipeline {
     }
 
     block CSVInterpreter oftype CSVInterpreter {
-        delimiter: ","; 
-        enclosing: '"'; 
+        enclosing: '"';
+        enclosingEscape: '"'; 
     }
 
     // Block for interpreting the CSV data as a table
     block TableInterpreter oftype TableInterpreter {
-        header: false; 
+        header: true; 
         columns: [
             "stop_id" oftype integer, 
             "stop_name" oftype text, 
